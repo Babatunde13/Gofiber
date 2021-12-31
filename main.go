@@ -43,6 +43,6 @@ func main () {
 	if os.Getenv("PORT") == "" {
 		app.Listen(":3000")
 	} else {
-		app.Listen(os.Getenv("APP_PORT"))
+		app.Listen(":"+os.Getenv("PORT"))
 	}
 }
