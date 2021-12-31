@@ -26,17 +26,17 @@ func (r *Repository) createBook(context *fiber.Ctx) error {
 			"message": "Invalid book data",
 			"status": false,
 		})
-		return err
+		return nil
 	}
 	// validate book data
 	validator := validator.New()
 	err = validator.Struct(book)
 	if err != nil {
 		context.Status(fiber.StatusUnprocessableEntity).JSON(&fiber.Map{
-			"message": err,
+			"message": "Invalid book data",
 			"status": false,
 		})
-		return err
+		return nil
 	}
 	err = r.DB.Create(&book).Error
 	if err != nil {
@@ -44,7 +44,7 @@ func (r *Repository) createBook(context *fiber.Ctx) error {
 			"message": "Error creating book",
 			"status": false,
 		})
-		return err
+		return nil
 	}
 	context.Status(fiber.StatusCreated).JSON(&fiber.Map{
 		"message": "Book created successfully",
@@ -71,15 +71,15 @@ func (r *Repository) updateBookById(context *fiber.Ctx) error {
 			"message": "Invalid book data",
 			"status": false,
 		})
-		return err
+		return nil
 	}
 	err = r.DB.First(bookModel, id).Error
 	if err != nil {
-		context.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
-			"message": "Error updating book",
+		context.Status(fiber.StatusNotFound).JSON(&fiber.Map{
+			"message": "Book not found",
 			"status": false,
 		})
-		return err
+		return nil
 	}
 	if book.Author != "" {
 		bookModel.Author = book.Author
@@ -92,11 +92,11 @@ func (r *Repository) updateBookById(context *fiber.Ctx) error {
 	}
 	err = r.DB.Save(bookModel).Error
 	if err != nil {
-		context.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+		context.Status(fiber.StatusUnprocessableEntity).JSON(&fiber.Map{
 			"message": "Error updating book",
 			"status": false,
 		})
-		return err
+		return nil
 	}
 	context.Status(fiber.StatusOK).JSON(&fiber.Map{
 		"message": "Book updated successfully",
@@ -119,11 +119,11 @@ func (r *Repository) getBookById(context *fiber.Ctx) error {
 	bookModel := &models.Book{}
 	err := r.DB.Where("id = ?", id).First(bookModel).Error
 	if err != nil {
-		context.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
-			"message": "Error fetching book",
+		context.Status(fiber.StatusNotFound).JSON(&fiber.Map{
+			"message": "Book not found",
 			"status": false,
 		})
-		return err
+		return nil
 	}
 	context.Status(fiber.StatusOK).JSON(&fiber.Map{
 		"message": "Book fetched successfully",
@@ -137,11 +137,10 @@ func (r *Repository) getAllBooks(context *fiber.Ctx) error {
 	bookModels := &[]models.Book{}
 	err := r.DB.Find(&bookModels).Error
 	if err != nil {
-		context.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+		return context.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 			"message": "Error fetching books",
 			"status": false,
 		})
-		return err
 	}
 	context.Status(fiber.StatusOK).JSON(&fiber.Map{
 		"message": "Books fetched successfully",
@@ -167,7 +166,7 @@ func (r *Repository) deleteBookById(context *fiber.Ctx) error {
 			"message": "Error deleting book",
 			"status": false,
 		})
-		return err
+		return nil
 	}
 	context.Status(fiber.StatusCreated).JSON(&fiber.Map{
 		"message": "Book deleted successfully",
