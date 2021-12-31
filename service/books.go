@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/Babatunde13/Gofiber/models"
+	"Gofiber/models"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"

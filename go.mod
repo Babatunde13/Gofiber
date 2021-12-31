@@ -1,4 +1,4 @@
-module github.com/Babatunde13/Gofiber
+module Gofiber
 
 go 1.17
 

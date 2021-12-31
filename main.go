@@ -3,9 +3,9 @@ package main
 import (
 	"log"
 	"os"
-	"github.com/Babatunde13/Gofiber/models"
-	"github.com/Babatunde13/Gofiber/service"
-	"github.com/Babatunde13/Gofiber/storage"
+	"Gofiber/models"
+	"Gofiber/service"
+	"Gofiber/storage"
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 )
