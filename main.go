@@ -1,20 +1,15 @@
 package main
 
 import (
-	"log"
-	"os"
 	"Gofiber/models"
 	"Gofiber/service"
 	"Gofiber/storage"
+	"log"
+	"os"
 	"github.com/gofiber/fiber/v2"
-	"github.com/joho/godotenv"
 )
 
 func main () {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal(err)
-	}
 	config := &storage.Config{
 		Host:     os.Getenv("DB_HOST"),
 		Port:     os.Getenv("DB_PORT"),
