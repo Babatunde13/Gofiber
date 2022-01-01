@@ -39,10 +39,10 @@ func main () {
 		DB: db,
 	}
 	app := fiber.New()
-	r.SetUpRoutes(app)
 	app.Get("/", func(context *fiber.Ctx) error {
-		return context.SendString("Welcome to Gofiber")
+		return context.SendString("Welcome to Gofiber, go to /api/v1/docs to see the documentation")
 	})
+	r.SetUpRoutes(app)
 
 	if os.Getenv("PORT") == "" {
 		app.Listen(":3000")

@@ -178,6 +178,9 @@ func (r *Repository) deleteBookById(context *fiber.Ctx) error {
 
 func (r *Repository) SetUpRoutes (app *fiber.App) {
 	api := app.Group("/api/v1")
+	api.Get("/docs", func(context *fiber.Ctx) error {
+		return context.Status(fiber.StatusMovedPermanently).Redirect("https://documenter.getpostman.com/view/11853513/UVRHi3Jn")
+	})
 	api.Post("/books", r.createBook)
 	api.Get("/books", r.getAllBooks)
 	api.Get("/books/:id", r.getBookById)
